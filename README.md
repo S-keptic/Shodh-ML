@@ -1,101 +1,115 @@
 Loan Policy Optimization using Supervised Learning and Offline Reinforcement Learning
 
-This project implements a loan approval decision-making system using two approaches:
+This project builds a loan approval decision system using two approaches:
 
-Supervised deep learning classification
+A supervised deep learning classifier that predicts the probability of default.
 
-Offline reinforcement learning for policy optimization
+An offline reinforcement learning agent that learns a loan approval policy aimed at maximizing financial return.
 
-The objective is to help a lending institution decide whether to approve or deny loan applications in a way that maximizes long-term financial returns.
+The assignment is based on the LendingClub dataset and follows the requirements of the Shodh ML Hiring Task.
 
-This work is based on the Shodh Hiring ML Assignment.
+Project Summary
 
-Project Overview
+The workflow includes:
 
-The project covers:
+Exploratory data analysis and preprocessing
 
-Data preprocessing and feature selection
+Building a deep learning model for classification
 
-A deep learning model to predict the probability of default
+Designing an offline RL environment from static loan data
 
-An offline RL agent that learns an approval policy using historical outcomes
+Training policy models using offline RL algorithms
 
-Comparison between the supervised decision threshold policy and the RL policy
+Evaluating the supervised model (AUC, F1, threshold)
 
-Analysis of disagreements between the two policies
+Estimating policy value for the RL agent
+
+Comparing the supervised decision rule with the learned RL policy
+
+Highlighting cases where the two disagree and analyzing the reasons
 
 Repository Structure
 
-notebooks: EDA, preprocessing, supervised model training, RL training, policy comparison
-models: trained models, preprocessed data, RL policies
-src: python scripts for preprocessing, training, and evaluation
-requirements.txt: dependencies
+notebooks/ Jupyter notebooks for each step
+models/ Saved preprocessing objects, model weights, RL policies
+src/ Python scripts for preprocessing, training, and evaluation
+requirements.txt Package dependencies
+README.md Project description
 .gitignore
-README.md
 
-Dataset
+Dataset Information
 
 The dataset used is the LendingClub accepted loan data (2007–2018).
-The target variable is binary:
-0 = Fully Paid
-1 = Charged Off or Defaulted
+The target variable is converted into a binary outcome:
+0 for Fully Paid
+1 for Charged Off or Defaulted
 
-Methodology
+A subset may be used during experimentation for faster iteration.
 
-Supervised Model
-A multi-layer perceptron is trained to predict the probability of default.
-Metrics reported include AUC, F1 score, and the optimal decision threshold.
+Methodology Overview
+
+Supervised Learning Model
+An MLP classifier predicts the probability that an applicant will default.
+Metrics include AUC, F1 score, and an optimized decision threshold to convert probabilities into actions.
 
 Offline Reinforcement Learning
-States are the applicant features.
-Actions are: 0 = deny loan, 1 = approve loan.
-Rewards were defined as:
+The RL setup defines:
+State: applicant features
+Action: 0 for deny, 1 for approve
+Reward:
 
-0 for deny
+0 if the loan is denied
 
-(loan_amount * interest_rate) if fully paid
+positive interest earnings if the loan is paid
 
-loan_amount if defaulted
+negative principal loss if the loan defaults
 
-The agent was trained using offline RL algorithms such as CQL and a basic value-based policy.
+Algorithms like Conservative Q-Learning (CQL) and value-based policies were used to train an offline agent.
 
-Results
+Results Summary
 
-Supervised Model Metrics
-AUC: (add your value)
-F1 Score: (add your value)
-Best Threshold: (add your value)
+Supervised Model
+AUC: (insert)
+F1 Score: (insert)
+Best threshold: (insert)
 
 Offline RL Agent
-Estimated Policy Value: (add your value)
+Estimated policy value: (insert)
 
 Policy Comparison
 
-The supervised model follows a rule based on predicted probability of default.
-The RL agent follows a rule based on expected long-term reward.
+The supervised model follows a threshold rule based on predicted default probability.
+The RL agent chooses actions to maximize long-term expected reward.
 
-Differences between the two often occur in borderline cases:
+Differences between the two policies usually occur in borderline risk cases.
+Examples include:
 
-Cases the classifier denies but RL approves because expected interest outweighs risk.
+Instances where the classifier denies a loan but RL approves due to expected interest outweighing risk.
 
-Cases the classifier approves but RL denies due to high expected loss.
+Cases where RL denies a loan the classifier approves because expected loss is high.
 
-Installation
+Installation and Setup
 
 Create environment:
 python -m venv venv
+
 Activate:
 venv\Scripts\activate (Windows)
+source venv/bin/activate (Linux/Mac)
+
 Install dependencies:
 pip install -r requirements.txt
 
 Running the Project
 
+Preprocessing:
 python src/preprocessing.py
+
+Train supervised model:
 python src/train_supervised.py
+
+Train RL agent:
 python src/train_rl.py
+
+Evaluate and compare:
 python src/evaluate.py
-
-Author
-
-Anmol Srivastava
